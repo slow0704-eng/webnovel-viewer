@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>지하서가 — 캠퍼스 스릴러 웹소설</title>
+<meta name="description" content="서울대 로스쿨·의대, 지하 마법학교. 비밀결사와 생존 게임이 걸린 캠퍼스 스릴러 웹소설 3편, 각 20화.">
+<meta name="theme-color" content="#F7F4EE">
+<meta property="og:type" content="website">
+<meta property="og:title" content="지하서가 — 캠퍼스 스릴러 웹소설">
+<meta property="og:description" content="제0법정 · 카데바는 학생이었다 · 이름 없는 신입생. 각 20화 완결.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect x='6' y='4' width='36' height='40' rx='3' fill='%235B1F1F'/%3E%3Cpath d='M14 14h20M14 22h20M14 30h12' stroke='%23F7F4EE' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&display=swap">
+<style>
+:root{
+  --bg:#F7F4EE; --panel:#FFFDF9; --ctl:#EEE9DF; --ctl-h:#E3DDD0;
+  --fg:#2A2723; --head:#1E1B18; --muted:#6F675D; --rule:#E2DBCE; --border:#D3CABA;
+  --accent:#8A2E22; --accent-soft:#F1E3DD; --sys-bg:#EFEAE0; --sys-fg:#3B342C;
+  --timer:#8A2E22;
+  --fs:19px; --lh:1.9; --measure:34em;
+  --serif:"Noto Serif KR","Nanum Myeongjo","AppleMyungjo","Batang",serif;
+  --sans:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif;
+  --mono:"D2Coding","Consolas","SFMono-Regular",ui-monospace,monospace;
+  --read:var(--serif);
+  color-scheme:light;
+}
+[data-theme="sepia"]{
+  --bg:#F2E8D5; --panel:#F8F0E0; --ctl:#E7DBC2; --ctl-h:#DDCFB2;
+  --fg:#2E2618; --head:#241D11; --muted:#6B5D43; --rule:#DCCDAE; --border:#CFBC96;
+  --accent:#7F2C1B; --accent-soft:#EBD9C4; --sys-bg:#E9DDC4; --sys-fg:#3A2F1C; --timer:#7F2C1B;
+}
+[data-theme="dark"]{
+  --bg:#191817; --panel:#211F1D; --ctl:#2A2825; --ctl-h:#34312D;
+  --fg:#D6D0C6; --head:#E6E0D5; --muted:#9A9389; --rule:#302D29; --border:#3C3834;
+  --accent:#E0906E; --accent-soft:#2E211C; --sys-bg:#26231F; --sys-fg:#CFC7BA; --timer:#E0906E;
+  color-scheme:dark;
+}
+[data-theme="night"]{
+  --bg:#0C0B0A; --panel:#141312; --ctl:#1B1A18; --ctl-h:#242220;
+  --fg:#A9A094; --head:#B9AFA1; --muted:#80786D; --rule:#23201E; --border:#302C28;
+  --accent:#C68A67; --accent-soft:#221712; --sys-bg:#171513; --sys-fg:#A39A8D; --timer:#C68A67;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);
+  transition:background .25s,color .25s;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.hidden{display:none!important}
+
+/* ---------- 서가 ---------- */
+.shelf{max-width:1080px;margin:0 auto;padding:56px 20px 80px}
+.mast{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+  border-bottom:1px solid var(--rule);padding-bottom:20px;margin-bottom:36px}
+.mast h1{font-family:var(--serif);font-size:clamp(30px,5vw,44px);margin:0;color:var(--head);letter-spacing:-.02em}
+.mast p{margin:6px 0 0;color:var(--muted);font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:28px}
+.card{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--rule);
+  border-radius:10px;overflow:hidden;text-align:left;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 30px -18px rgba(0,0,0,.35)}
+.cover{position:relative;aspect-ratio:16/10;padding:22px 22px 20px;color:#F4EEE4;display:flex;
+  flex-direction:column;justify-content:flex-end;overflow:hidden}
+.cover::before{content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 7px),
+  radial-gradient(120% 90% at 85% 0%,rgba(255,255,255,.16),transparent 60%)}
+.cover .no{position:absolute;top:18px;left:22px;font:600 12px/1 var(--mono);letter-spacing:.14em;opacity:.75}
+.cover h2{position:relative;font-family:var(--serif);font-size:25px;line-height:1.3;margin:0;word-break:keep-all}
+.cover small{position:relative;display:block;margin-top:8px;font-size:13.5px;opacity:.82;word-break:keep-all;line-height:1.5}
+.card .body{padding:18px 22px 22px;display:flex;flex-direction:column;gap:12px;flex:1}
+.tags{font-size:12.5px;color:var(--muted);letter-spacing:.02em}
+.log{font-size:14.5px;line-height:1.7;margin:0;color:var(--fg);word-break:keep-all;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.meter{height:3px;background:var(--ctl);border-radius:2px;overflow:hidden;margin-top:auto}
+.meter i{display:block;height:100%;background:var(--accent)}
+.meta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.foot{margin-top:56px;color:var(--muted);font-size:13px;line-height:1.7;border-top:1px solid var(--rule);padding-top:20px}
+
+/* ---------- 작품 ---------- */
+.book{max-width:760px;margin:0 auto;padding:28px 20px 80px}
+.crumb{font-size:14px;color:var(--muted);padding:6px 0 18px}
+.crumb button{color:var(--muted);padding:6px 0}
+.crumb button:hover{color:var(--accent)}
+.book .cover{border-radius:10px;aspect-ratio:auto;min-height:240px}
+.book .cover h2{font-size:clamp(26px,4.6vw,34px)}
+.book .lead{font-family:var(--serif);font-size:16.5px;line-height:1.85;margin:26px 0 10px;word-break:keep-all}
+.notice{font-size:12.5px;line-height:1.7;color:var(--muted);border-left:2px solid var(--border);padding:2px 0 2px 12px;margin:16px 0 26px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:30px}
+.btn{padding:12px 20px;border-radius:8px;background:var(--ctl);font-size:15px;font-weight:600}
+.btn:hover{background:var(--ctl-h)}
+.btn.primary{background:var(--accent);color:var(--bg)}
+.btn.primary:hover{filter:brightness(1.08)}
+.toc{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.toc li{border-bottom:1px solid var(--rule)}
+.toc button{display:flex;width:100%;align-items:baseline;gap:14px;padding:15px 4px;text-align:left}
+.toc button:hover{background:var(--ctl)}
+.toc .n{font:600 13px var(--mono);color:var(--muted);min-width:3.2em}
+.toc .t{flex:1;font-family:var(--serif);font-size:16.5px}
+.toc .c{font-size:12px;color:var(--muted)}
+.toc .read .t{color:var(--muted)}
+.toc .read .n::after{content:" ✓";color:var(--accent)}
+.toc .cur{background:var(--accent-soft)}
+
+/* ---------- 리더 ---------- */
+.bar{position:fixed;inset:0 0 auto 0;z-index:20;height:52px;display:flex;align-items:center;gap:4px;
+  padding:0 8px;padding-top:env(safe-area-inset-top);background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);
+  transition:transform .25s}
+.bar.off{transform:translateY(-100%)}
+.bar .ttl{flex:1;min-width:0;text-align:center;font-size:14px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ib{width:42px;height:42px;border-radius:8px;display:grid;place-items:center;font-size:17px}
+.ib:hover{background:var(--ctl)}
+.ib svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.prog{position:fixed;left:0;top:0;height:2px;background:var(--accent);z-index:30;width:0;transition:width .1s}
+.reader{max-width:calc(var(--measure) + 40px);margin:0 auto;padding:96px 20px 60px}
+.chhead{text-align:center;margin:10px 0 52px}
+.chhead .k{font:600 12.5px var(--mono);letter-spacing:.2em;color:var(--accent)}
+.chhead h2{font-family:var(--serif);font-size:calc(var(--fs) * 1.45);color:var(--head);margin:12px 0 0;line-height:1.4;word-break:keep-all}
+.text{font-family:var(--read);font-size:var(--fs);line-height:var(--lh);word-break:keep-all;overflow-wrap:break-word}
+.text p{margin:0 0 1.05em}
+.text p.em-line{font-weight:700;color:var(--head)}
+.text strong{color:var(--head)}
+.text .timer{font:600 calc(var(--fs) * .74)/1 var(--mono);letter-spacing:.12em;color:var(--timer);
+  display:table;margin:2.2em auto 1.6em;padding:.55em .9em;border:1px solid currentColor;border-radius:3px}
+.text .timer:first-child{margin-top:0}
+.text .doc{font-family:var(--sans);font-size:calc(var(--fs) * .84);line-height:1.75;background:var(--sys-bg);color:var(--sys-fg);
+  border-left:3px solid var(--accent);padding:.8em 1em;margin:0 0 1.2em;border-radius:0 4px 4px 0}
+.text .sys{font-family:var(--sans);font-size:.88em;background:var(--sys-bg);color:var(--sys-fg);padding:.1em .35em;border-radius:3px}
+.text hr.scene{border:0;margin:2.4em 0;text-align:center;height:1em}
+.text hr.scene::after{content:"◆  ◆  ◆";font-size:10px;letter-spacing:.3em;color:var(--muted)}
+.endnav{display:flex;gap:12px;margin-top:64px;padding-top:28px;border-top:1px solid var(--rule)}
+.endnav button{flex:1;padding:18px 16px;border-radius:10px;background:var(--ctl);text-align:left}
+.endnav button:hover{background:var(--ctl-h)}
+.endnav button:disabled{opacity:.35;cursor:default}
+.endnav .next{text-align:right}
+.endnav small{display:block;font-size:12px;color:var(--muted);margin-bottom:4px}
+.endnav b{font-family:var(--serif);font-weight:600;font-size:15px;word-break:keep-all}
+.fin{text-align:center;font-family:var(--serif);color:var(--muted);margin:56px 0 0;font-size:15px}
+
+/* 서랍 · 설정 */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;bottom:0;right:0;width:min(380px,88vw);background:var(--panel);z-index:50;
+  transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;border-left:1px solid var(--rule)}
+.drawer.on{transform:none}
+.drawer header{display:flex;align-items:center;justify-content:space-between;padding:14px 12px 14px 20px;border-bottom:1px solid var(--rule)}
+.drawer header b{font-family:var(--serif);font-size:16px}
+.drawer .scroll{overflow:auto;flex:1}
+.drawer .toc{border-top:0}
+.drawer .toc button{padding:13px 20px}
+.sheet{position:fixed;left:50%;bottom:0;transform:translate(-50%,105%);width:min(520px,100%);z-index:50;
+  background:var(--panel);border:1px solid var(--rule);border-bottom:0;border-radius:14px 14px 0 0;
+  padding:18px 20px calc(22px + env(safe-area-inset-bottom));transition:transform .25s}
+.sheet.on{transform:translate(-50%,0)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0}
+.row>span{font-size:14px;color:var(--muted);min-width:4em}
+.seg{display:flex;gap:6px;flex:1;justify-content:flex-end}
+.seg button{flex:1;max-width:84px;padding:10px 6px;border-radius:8px;background:var(--ctl);font-size:13.5px;border:1px solid transparent}
+.seg button.on{border-color:var(--accent);color:var(--accent);font-weight:600}
+.sw{width:22px;height:22px;border-radius:50%;display:inline-block;vertical-align:middle;border:1px solid var(--border)}
+.val{min-width:3em;text-align:center;font:600 14px var(--mono)}
+
+@media (max-width:560px){
+  .shelf{padding-top:36px}
+  .mast{flex-direction:column;align-items:flex-start}
+  .reader{padding-top:84px}
+  .endnav{flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- 서가 -->
+<main id="shelf" class="shelf hidden">
+  <div class="mast">
+    <div>
+      <h1>지하서가</h1>
+      <p>캠퍼스 지하에서 열리는 생존 게임 · 3편 · 각 20화 완결</p>
+    </div>
+    <button class="btn" data-act="settings">Aa 보기 설정</button>
+  </div>
+  <div id="grid" class="grid"></div>
+  <p class="foot">모든 작품의 조직·사건·인물은 허구이며 실존 인물·기관과 무관합니다. 실제 지명·기관명은 배경으로만 차용했습니다.<br>
+  읽은 위치는 이 브라우저에만 저장됩니다. 단축키 ← → 이전/다음 화 · T 목차 · Esc 닫기</p>
+</main>
+
+<!-- 작품 -->
+<main id="book" class="book hidden"></main>
+
+<!-- 리더 -->
+<div id="readerWrap" class="hidden">
+  <div class="prog" id="prog"></div>
+  <nav class="bar" id="bar">
+    <button class="ib" data-act="up" aria-label="작품으로"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div class="ttl" id="barTitle"></div>
+    <button class="ib" data-act="settings" aria-label="보기 설정" style="font-family:var(--serif);font-weight:700">Aa</button>
+    <button class="ib" data-act="toc" aria-label="목차"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></button>
+  </nav>
+  <article class="reader" id="reader"></article>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="목차">
+  <header><b id="drawerTitle"></b><button class="ib" data-act="close" aria-label="닫기">✕</button></header>
+  <div class="scroll"><ul class="toc" id="drawerToc"></ul></div>
+</aside>
+<section class="sheet" id="sheet" aria-label="보기 설정">
+  <div class="row"><span>배경</span><div class="seg" id="segTheme">
+    <button data-v="light"><i class="sw" style="background:#F7F4EE"></i></button>
+    <button data-v="sepia"><i class="sw" style="background:#F2E8D5"></i></button>
+    <button data-v="dark"><i class="sw" style="background:#191817"></i></button>
+    <button data-v="night"><i class="sw" style="background:#0C0B0A"></i></button>
+  </div></div>
+  <div class="row"><span>글꼴</span><div class="seg" id="segFont">
+    <button data-v="serif" style="font-family:var(--serif)">명조</button>
+    <button data-v="sans">고딕</button>
+  </div></div>
+  <div class="row"><span>크기</span><div class="seg">
+    <button data-act="fs-">가−</button><b class="val" id="fsVal"></b><button data-act="fs+">가+</button>
+  </div></div>
+  <div class="row"><span>줄간격</span><div class="seg" id="segLh">
+    <button data-v="1.7">좁게</button><button data-v="1.9">보통</button><button data-v="2.15">넓게</button>
+  </div></div>
+</section>
+
+<script>
+const BOOKS = /*__DATA__*/null;
+const $ = s => document.querySelector(s);
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem('jhsg.'+k); return v===null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem('jhsg.'+k, JSON.stringify(v)); }catch(e){} }
+};
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const bySlug = Object.fromEntries(BOOKS.map(b => [b.slug, b]));
+
+/* ---------- 설정 ---------- */
+const pref = Object.assign({theme:null, font:'serif', fs:19, lh:'1.9'}, store.get('pref', {}));
+if(!pref.theme) pref.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+function applyPref(){
+  const r = document.documentElement;
+  r.dataset.theme = pref.theme;
+  r.style.setProperty('--fs', pref.fs + 'px');
+  r.style.setProperty('--lh', pref.lh);
+  r.style.setProperty('--read', pref.font === 'sans' ? 'var(--sans)' : 'var(--serif)');
+  document.querySelector('meta[name=theme-color]').content = getComputedStyle(r).getPropertyValue('--bg').trim();
+  for(const [id, v] of [['segTheme', pref.theme], ['segFont', pref.font], ['segLh', pref.lh]])
+    document.querySelectorAll('#'+id+' button').forEach(b => b.classList.toggle('on', b.dataset.v === String(v)));
+  $('#fsVal').textContent = pref.fs;
+  store.set('pref', pref);
+}
+['segTheme','segFont','segLh'].forEach(id => $('#'+id).addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  pref[{segTheme:'theme', segFont:'font', segLh:'lh'}[id]] = b.dataset.v; applyPref();
+}));
+
+/* ---------- 진행 ---------- */
+const prog = store.get('progress', {});   // slug → {ch, y, read:[...]}
+const P = slug => (prog[slug] ||= {ch:0, y:0, read:[]});
+const saveProg = () => store.set('progress', prog);
+
+/* ---------- 화면 ---------- */
+const views = ['shelf', 'book', 'readerWrap'];
+function show(id){ views.forEach(v => $('#'+v).classList.toggle('hidden', v !== id)); closeAll(); }
+
+function cover(b, big){
+  return `<div class="cover" style="background:${b.color}">
+    <span class="no">${b.chapters.length}화 완결</span>
+    <h2>${esc(b.title)}</h2>${b.subtitle ? `<small>${esc(b.subtitle)}</small>` : ''}</div>`;
+}
+
+function renderShelf(){
+  $('#grid').innerHTML = BOOKS.map(b => {
+    const p = P(b.slug), n = b.chapters.length, r = p.read.length;
+    const total = b.chapters.reduce((s, c) => s + c.chars, 0);
+    return `<button class="card" data-go="#/${b.slug}">${cover(b)}
+      <div class="body"><div class="tags">${esc(b.genre)}</div>
+      <p class="log">${esc(b.logline)}</p>
+      <div class="meter"><i style="width:${r / n * 100}%"></i></div>
+      <div class="meta"><span>${r ? `${r}/${n}화 읽음` : '아직 읽지 않음'}</span><span>${Math.round(total / 1000)}천 자</span></div></div></button>`;
+  }).join('');
+  show('shelf'); document.title = '지하서가 — 캠퍼스 스릴러 웹소설'; scrollTo(0, 0);
+}
+
+function tocHTML(b, cur){
+  const p = P(b.slug);
+  return b.chapters.map((c, i) => `<li><button class="${p.read.includes(i) ? 'read' : ''} ${i === cur ? 'cur' : ''}" data-go="#/${b.slug}/${i + 1}">
+    <span class="n">${String(i + 1).padStart(2, '0')}화</span><span class="t">${esc(c.title)}</span><span class="c">${(c.chars / 1000).toFixed(1)}천</span></button></li>`).join('');
+}
+
+function renderBook(b){
+  const p = P(b.slug), started = p.read.length || p.ch;
+  $('#book').innerHTML = `<div class="crumb"><button data-go="#/">← 지하서가</button></div>
+    ${cover(b, true)}
+    <p class="lead">${esc(b.logline)}</p>
+    ${b.notice ? `<p class="notice">${esc(b.notice)}</p>` : ''}
+    <div class="actions">
+      <button class="btn primary" data-go="#/${b.slug}/${started ? p.ch + 1 : 1}">${started ? `${p.ch + 1}화 이어 읽기` : '1화부터 읽기'}</button>
+      ${started ? `<button class="btn" data-go="#/${b.slug}/1">처음부터</button>` : ''}
+    </div>
+    <ul class="toc">${tocHTML(b)}</ul>`;
+  show('book'); document.title = `${b.title} — 지하서가`; scrollTo(0, 0);
+}
+
+let cur = null;   // {b, i}
+function renderChapter(b, i){
+  const c = b.chapters[i], n = b.chapters.length;
+  const prev = b.chapters[i - 1], next = b.chapters[i + 1];
+  $('#barTitle').textContent = `${b.title} · ${i + 1}화`;
+  $('#reader').innerHTML = `<header class="chhead"><div class="k">제${i + 1}화</div><h2>${esc(c.title)}</h2></header>
+    <div class="text">${c.html}</div>
+    ${next ? '' : '<p class="fin">— 시즌 1 완결 —</p>'}
+    <nav class="endnav">
+      <button ${prev ? `data-go="#/${b.slug}/${i}"` : 'disabled'}><small>← 이전 화</small><b>${prev ? esc(prev.title) : '첫 화입니다'}</b></button>
+      <button class="next" ${next ? `data-go="#/${b.slug}/${i + 2}"` : `data-go="#/${b.slug}"`}><small>${next ? '다음 화 →' : '작품으로 →'}</small><b>${next ? esc(next.title) : '목차 보기'}</b></button>
+    </nav>`;
+  $('#drawerTitle').textContent = b.title;
+  $('#drawerToc').innerHTML = tocHTML(b, i);
+  show('readerWrap');
+  document.title = `${i + 1}화 ${c.title} — ${b.title}`;
+  const p = P(b.slug);
+  const resume = p.ch === i && p.y > 0 ? p.y : 0;
+  p.ch = i; saveProg();
+  cur = {b, i};
+  requestAnimationFrame(() => { scrollTo(0, resume * maxY()); onScroll(); });
+  $('#bar').classList.remove('off');
+}
+
+/* ---------- 라우팅 ---------- */
+function route(){
+  const [, slug, ch] = location.hash.split('/');
+  const b = bySlug[decodeURIComponent(slug || '')];
+  cur = null;
+  if(!b) return renderShelf();
+  const i = parseInt(ch, 10) - 1;
+  if(i >= 0 && i < b.chapters.length) return renderChapter(b, i);
+  renderBook(b);
+}
+addEventListener('hashchange', route);
+
+/* ---------- 스크롤 ---------- */
+const maxY = () => Math.max(1, document.documentElement.scrollHeight - innerHeight);
+let lastY = 0, saveT = 0;
+function onScroll(){
+  if(!cur) return;
+  const y = scrollY, r = Math.min(1, y / maxY());
+  $('#prog').style.width = (r * 100) + '%';
+  $('#bar').classList.toggle('off', y > lastY + 4 && y > 120);
+  if(y < lastY - 4) $('#bar').classList.remove('off');
+  lastY = y;
+  clearTimeout(saveT);
+  saveT = setTimeout(() => {
+    if(!cur) return;
+    const p = P(cur.b.slug);
+    p.ch = cur.i; p.y = r;
+    if(r > .92 && !p.read.includes(cur.i)) p.read.push(cur.i);
+    saveProg();
+  }, 250);
+}
+addEventListener('scroll', onScroll, {passive:true});
+
+/* ---------- 서랍 · 시트 ---------- */
+function open(id){ closeAll(); $('#'+id).classList.add('on'); $('#scrim').classList.add('on'); }
+function closeAll(){ ['drawer', 'sheet', 'scrim'].forEach(id => $('#'+id).classList.remove('on')); }
+$('#scrim').addEventListener('click', closeAll);
+
+document.addEventListener('click', e => {
+  const g = e.target.closest('[data-go]');
+  if(g){ e.preventDefault(); const h = g.dataset.go; if(location.hash === h) route(); else location.hash = h; return; }
+  const a = e.target.closest('[data-act]'); if(!a) return;
+  const act = a.dataset.act;
+  if(act === 'settings') open('sheet');
+  else if(act === 'toc'){ open('drawer'); $('#drawerToc .cur')?.scrollIntoView({block:'center'}); }
+  else if(act === 'close') closeAll();
+  else if(act === 'up' && cur) location.hash = '#/' + cur.b.slug;
+  else if(act === 'fs-' || act === 'fs+'){
+    pref.fs = Math.min(28, Math.max(14, pref.fs + (act === 'fs+' ? 1 : -1))); applyPref();
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if(e.altKey || e.ctrlKey || e.metaKey) return;
+  if(e.key === 'Escape') return closeAll();
+  if(!cur) return;
+  if(e.key === 'ArrowRight' && cur.i + 1 < cur.b.chapters.length) location.hash = `#/${cur.b.slug}/${cur.i + 2}`;
+  else if(e.key === 'ArrowLeft' && cur.i > 0) location.hash = `#/${cur.b.slug}/${cur.i}`;
+  else if(e.key === 't' || e.key === 'T') open('drawer');
+});
+
+applyPref();
+route();
+</script>
+</body>
+</html>
