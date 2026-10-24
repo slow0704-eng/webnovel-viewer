@@ -2,13 +2,13 @@
 
 캠퍼스 지하에서 열리는 생존 게임 — 웹소설 3편, 각 20화 완결.
 
-**바로 읽기 — https://slow0704-eng.github.io/webnovel-viewer/**
+> **🔗 바로 읽기 — [https://slow0704-eng.github.io/webnovel-viewer/](https://slow0704-eng.github.io/webnovel-viewer/)**
 
-| 작품 | 무대 |
-|---|---|
-| 서울대 로스쿨 제0법정 — 사형수의 딸은 유죄를 선고한다 | 법학도서관 지하 비밀 법정 |
-| 서울의대 지하 3층, 카데바는 학생이었다 | 해부학 실습실 |
-| 이름 없는 신입생은 7일 안에 사라진다 | 서울 지하 마법학교 |
+| 작품 | 무대 | 바로 읽기 |
+|---|---|---|
+| [서울대 로스쿨 제0법정 — 사형수의 딸은 유죄를 선고한다](https://slow0704-eng.github.io/webnovel-viewer/#/courtroom-zero) | 법학도서관 지하 비밀 법정 | [1화부터](https://slow0704-eng.github.io/webnovel-viewer/#/courtroom-zero/1) |
+| [서울의대 지하 3층, 카데바는 학생이었다](https://slow0704-eng.github.io/webnovel-viewer/#/cadaver) | 해부학 실습실 | [1화부터](https://slow0704-eng.github.io/webnovel-viewer/#/cadaver/1) |
+| [이름 없는 신입생은 7일 안에 사라진다](https://slow0704-eng.github.io/webnovel-viewer/#/nameless) | 서울 지하 마법학교 | [1화부터](https://slow0704-eng.github.io/webnovel-viewer/#/nameless/1) |
 
 - 페이지 하나(`index.html`)에 본문이 모두 들어 있어서, 서버 없이 파일만 열어도 읽힙니다.
 - 배경 4종 · 명조/고딕 · 글자 크기 · 줄간격, 읽은 위치 자동 저장(브라우저 localStorage)
