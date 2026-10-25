@@ -14,6 +14,7 @@ BOOKS = [
     ("카데바는-학생이었다", "cadaver", "#1F3A3D"),
     ("이름없는-신입생", "nameless", "#2B2547"),
     ("청월학원-결석계", "cheongwol", "#1E3350"),
+    ("백운관-304호", "baegun-304", "#2F3B2A"),
 ]
 
 TIMER = re.compile(r"^\[D-?\d+.*\]$|^\[D-DAY.*\]$")
