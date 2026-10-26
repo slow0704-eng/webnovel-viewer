@@ -14,7 +14,7 @@
 | [서한고 9층 — 추천서 두 장까지 50일, 1등급은 이미 팔렸다](https://slow0704-eng.github.io/webnovel-viewer/#/seohan-9) | 대치동 사립고와 학원가 오피스텔 902호 | [1화부터](https://slow0704-eng.github.io/webnovel-viewer/#/seohan-9/1) |
 
 - 페이지 하나(`index.html`)에 본문이 모두 들어 있어서, 서버 없이 파일만 열어도 읽힙니다.
-- 배경 4종 · 명조/고딕 · 글자 크기 · 줄간격, 읽은 위치 자동 저장(브라우저 localStorage)
+- 배경 4종 · 명조/고딕 · 글자 크기 · 줄간격 · 자동 줄넘김(원문/문장마다/문장+여백), 읽은 위치 자동 저장(브라우저 localStorage)
 - 단축키: ← → 이전/다음 화 · T 목차 · Esc 닫기
 
 ## 빌드

@@ -129,6 +129,9 @@ a{color:var(--accent)}
 .text .doc{font-family:var(--sans);font-size:calc(var(--fs) * .84);line-height:1.75;background:var(--sys-bg);color:var(--sys-fg);
   border-left:3px solid var(--accent);padding:.8em 1em;margin:0 0 1.2em;border-radius:0 4px 4px 0}
 .text .sys{font-family:var(--sans);font-size:.88em;background:var(--sys-bg);color:var(--sys-fg);padding:.1em .35em;border-radius:3px}
+.text .ab{display:none}
+[data-wrap="line"] .text .ab{display:block}
+[data-wrap="gap"] .text .ab{display:block;height:.55em}
 .text hr.scene{border:0;margin:2.4em 0;text-align:center;height:1em}
 .text hr.scene::after{content:"◆  ◆  ◆";font-size:10px;letter-spacing:.3em;color:var(--muted)}
 .endnav{display:flex;gap:12px;margin-top:64px;padding-top:28px;border-top:1px solid var(--rule)}
@@ -225,6 +228,9 @@ a{color:var(--accent)}
   <div class="row"><span>줄간격</span><div class="seg" id="segLh">
     <button data-v="1.7">좁게</button><button data-v="1.9">보통</button><button data-v="2.15">넓게</button>
   </div></div>
+  <div class="row"><span>줄넘김</span><div class="seg" id="segWrap">
+    <button data-v="off">원문</button><button data-v="line">문장마다</button><button data-v="gap">문장+여백</button>
+  </div></div>
 </section>
 
 <script>
@@ -238,24 +244,65 @@ const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','
 const bySlug = Object.fromEntries(BOOKS.map(b => [b.slug, b]));
 
 /* ---------- 설정 ---------- */
-const pref = Object.assign({theme:null, font:'serif', fs:19, lh:'1.9'}, store.get('pref', {}));
+const pref = Object.assign({theme:null, font:'serif', fs:19, lh:'1.9', wrap:'line'}, store.get('pref', {}));
 if(!pref.theme) pref.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 function applyPref(){
   const r = document.documentElement;
   r.dataset.theme = pref.theme;
+  r.dataset.wrap = pref.wrap;
   r.style.setProperty('--fs', pref.fs + 'px');
   r.style.setProperty('--lh', pref.lh);
   r.style.setProperty('--read', pref.font === 'sans' ? 'var(--sans)' : 'var(--serif)');
   document.querySelector('meta[name=theme-color]').content = getComputedStyle(r).getPropertyValue('--bg').trim();
-  for(const [id, v] of [['segTheme', pref.theme], ['segFont', pref.font], ['segLh', pref.lh]])
+  for(const [id, v] of [['segTheme', pref.theme], ['segFont', pref.font], ['segLh', pref.lh], ['segWrap', pref.wrap]])
     document.querySelectorAll('#'+id+' button').forEach(b => b.classList.toggle('on', b.dataset.v === String(v)));
   $('#fsVal').textContent = pref.fs;
   store.set('pref', pref);
 }
-['segTheme','segFont','segLh'].forEach(id => $('#'+id).addEventListener('click', e => {
+['segTheme','segFont','segLh','segWrap'].forEach(id => $('#'+id).addEventListener('click', e => {
   const b = e.target.closest('button'); if(!b) return;
-  pref[{segTheme:'theme', segFont:'font', segLh:'lh'}[id]] = b.dataset.v; applyPref();
+  pref[{segTheme:'theme', segFont:'font', segLh:'lh', segWrap:'wrap'}[id]] = b.dataset.v; applyPref();
 }));
+
+/* ---------- 자동 줄넘김 ---------- */
+// 문장 끝(. ! ? … + 닫는 따옴표) 뒤 공백마다 <span class="ab">를 꽂는다. 대사 따옴표 안은 자르지 않는다.
+// 보이는 방식(원문/문장마다/여백)은 html[data-wrap] CSS로만 바뀐다.
+const OPEN = '“‘「『(', CLOSE = '”’」』)', END = '.!?…';
+const SAY = /^(하고|하며|하면|하는|하자|하듯|하던|라고|라며|라는|이라|고 |며 )/;
+function autoWrap(root){
+  root.querySelectorAll('p').forEach(p => {
+    const cuts = [];
+    let dq = false, sq = false, depth = 0, ended = false, numDot = false, quoted = false, pending = null, prev = '';
+    const walk = document.createTreeWalker(p, NodeFilter.SHOW_TEXT);
+    for(let n; (n = walk.nextNode());){
+      if(n.parentElement.closest('.sys')){ ended = false; pending = null; continue; }
+      const s = n.data;
+      for(let k = 0; k < s.length; k++){
+        const ch = s[k];
+        if(/\s/.test(ch)){
+          if(ended && !dq && !sq && !depth && !pending) pending = {n, k, numDot, quoted};
+          ended = false;
+        }else{
+          // "1998. 3. 1." 같은 숫자 사이 점은 문장 끝이 아니다. "됐어." 하고 웃었다 — 인용 뒤 서술은 붙여 둔다
+          if(pending && !(pending.numDot && /\d/.test(ch)) && !(pending.quoted && SAY.test(s.slice(k, k + 4)))) cuts.push(pending);
+          pending = null;
+          if(ch === '"') dq = !dq;
+          else if(ch === "'") sq = !sq;
+          else if(OPEN.includes(ch)) depth++;
+          else if(CLOSE.includes(ch)) depth = Math.max(0, depth - 1);
+          else if(END.includes(ch)){ ended = true; quoted = false; numDot = ch === '.' && /\d/.test(prev); }
+          else ended = false;
+          if(ended && !END.includes(ch)) quoted = true;
+        }
+        prev = ch;
+      }
+    }
+    for(const c of cuts.reverse()){
+      const ab = document.createElement('span'); ab.className = 'ab';
+      c.n.splitText(c.k + 1).before(ab);
+    }
+  });
+}
 
 /* ---------- 진행 ---------- */
 const prog = store.get('progress', {});   // slug → {ch, y, read:[...]}
@@ -317,6 +364,7 @@ function renderChapter(b, i){
       <button ${prev ? `data-go="#/${b.slug}/${i}"` : 'disabled'}><small>← 이전 화</small><b>${prev ? esc(prev.title) : '첫 화입니다'}</b></button>
       <button class="next" ${next ? `data-go="#/${b.slug}/${i + 2}"` : `data-go="#/${b.slug}"`}><small>${next ? '다음 화 →' : '작품으로 →'}</small><b>${next ? esc(next.title) : '목차 보기'}</b></button>
     </nav>`;
+  autoWrap($('#reader .text'));
   $('#drawerTitle').textContent = b.title;
   $('#drawerToc').innerHTML = tocHTML(b, i);
   show('readerWrap');
